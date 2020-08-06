@@ -1,0 +1,21 @@
+{% extends 'headway/base.html' %}
+{% block title %} File Upload {% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="row">
+          <div class="col-md-12">
+            <div class="card demo-icons">
+              <div class="card-header">
+                <h5 class="card-title">Upload File </h5>
+                <p class="card-category">
+                   Fill In The Form To Upload A File For This Course. <br>
+                </p>
+              </div>
+              <div class="card-body all-icons">
+                    {% crispy form form.helper %}
+              </div>
+            </div>
+          </div>
+        </div>
+{% endblock content %}

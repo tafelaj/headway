@@ -1,0 +1,42 @@
+{% extends 'administrator/base.html' %}
+{% block title %}Exams{% endblock %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="card ">
+          <div class="card-header ">
+            <h5 class="card-title">Exams List</h5>
+            <p class="card-category">List Of Previous And Upcoming Exams</p>
+          </div>
+            <div class="card-body">
+                <a href="{% url 'administrator:add_exam' %}" class="btn btn-outline-success btn-sm">
+                    Add Exam
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {% include 'partials/messages.html' %}
+
+    {% for exam in exams %}
+        <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">{{ exam }}</h5>
+                <p class="card-category"></p>
+              </div>
+                <div class="card-body">
+
+                    <a href="{% url 'administrator:update_exam' pk=exam.pk%}" class="btn btn-warning">
+                        Edit
+                    </a>
+                    <a href="{{ exam.get_absolute_url }}" class="btn btn-success">
+                        Details
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% include 'partials/pagination.html' %}
+{% endblock content%}

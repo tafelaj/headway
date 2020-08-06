@@ -1,0 +1,64 @@
+{% extends 'headway/base.html' %}
+{% block title %}Courses{% endblock %}
+
+{% block content %}
+    <div class="content">
+    {% include 'partials/messages.html' %}
+    {% if request.user.is_student %}
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card demo-icons">
+              <div class="card-header">
+                <h5 class="card-title">Course List & Management</h5>
+                <p class="card-category">
+                    View All Courses You are Currently Registered For And Manage Them
+                </p>
+              </div>
+              <div class="card-body all-icons">
+                  <!--List of Courses-->
+                  {% for course in courses %}
+                  <div class="card ">
+                      <div class="card-header ">
+                        <h5 class="card-title">{{ course }}</h5>
+                        <p class="card-category">{{ course.summary }}</p>
+                      </div>
+                    </div>
+                  {% endfor %}
+                  <!-- Buttons and such -->
+                  <a href="{% url 'headway:course_registration' %}" class="btn btn-primary">Course Registration</a>
+                  <a href="{% url 'headway:completed_courses' %}" class="btn btn-primary">Cleared Courses</a>
+              </div>
+            </div>
+          </div>
+        </div>
+    {% endif %}
+
+    {% if request.user.is_lecturer %}
+            <div class="row">
+          <div class="col-md-12">
+            <div class="card demo-icons">
+              <div class="card-header">
+                <h5 class="card-title">Course List & Management</h5>
+                <p class="card-category">
+                    View All Courses You are Currently Registered For And Manage Them
+                </p>
+              </div>
+              <div class="card-body all-icons">
+                  <!--List of Courses-->
+                  {% for course in courses %}
+                  <div class="card ">
+                      <div class="card-header ">
+                        <h5 class="card-title"><a href="{% url 'headway:course_detail' pk=course.pk%}">{{ course }}</a> </h5>
+                        <p class="card-category">{{ course.summary }}</p>
+                      </div>
+                    </div>
+                  {% endfor %}
+                  <!-- Buttons and such -->
+                  <a href="{% url 'headway:lecturer_course_registration' %}" class="btn btn-primary">Course Registration</a>
+              </div>
+            </div>
+          </div>
+        </div>
+    {% endif %}
+    </div>
+{% endblock content %}

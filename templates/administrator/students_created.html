@@ -1,0 +1,11 @@
+{% extends 'administrator/base.html' %}
+{% block title %}Students Created{% endblock %}
+
+{% block content %}
+    <form method="post" action="{% url 'administrator:students' %}">
+        <input type="hidden" value="{{ program.pk }}" name="program_pk">
+        <input type="hidden" value="{{ first_student.year }}" name="student_year">
+        <input type="hidden" value="{{ first_student.semester }}" name="student_semester">
+        <input type="submit" value="Done" class="btn btn-primary btn-sm">
+    </form>
+{% endblock content %}

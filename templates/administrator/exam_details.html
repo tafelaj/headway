@@ -1,0 +1,45 @@
+{% extends 'administrator/base.html' %}
+{% block title %}Exam Details{% endblock %}
+
+{% block content %}
+        <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">{{ exam }}</h5>
+                <p class="card-category">Exam Details</p>
+              </div>
+
+            {% include 'partials/messages.html' %}
+
+                <div class="card-body">
+                    <div class="typography-line"><strong>
+                        Students Registered: {{ student_nun }}</strong>
+                    </div>
+                    <div class="typography-line"><strong>
+                        Courses Registered: {{ course_nun }}</strong>
+                    </div>
+                    <div class="typography-line"><strong>
+                        Courses Graded: {{ course_graded_nun }}</strong>
+                    </div>
+                <br>
+                <div class="typography-line">
+                    <p>ONLY PUBLISH RESULTS WHEN THE NUMBER ON REGISTERED COURSES IS
+                        THE SAME AS THE NUMBER OF GRADED COURSES</p>
+                </div>
+                <hr class="btn-outline-success">
+                    {% if exam.active %}
+                        <form action="{% url 'administrator:publish_exam' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{ exam.pk }}" name="exam_id">
+                            <input type="submit" value="Publish Results" class="btn btn-outline-success btn-sm" >
+                        </form>
+                    {% else %}
+                        <div class="text-info text-center">
+                            <h5>Results Published</h5>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+{% endblock content %}

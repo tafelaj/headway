@@ -1,0 +1,95 @@
+{% extends 'headway/base.html' %}
+{% block title %} Search Results{% endblock %}
+
+{% block content %}
+    <div class="row">
+          <div class="col-md-12">
+            <div class="card demo-icons">
+              <div class="card-header">
+                <h5 class="card-title">Search Results</h5>
+                <p class="card-category">
+                    Search results for "{{ request.GET.q }}".
+                </p>
+              </div>
+            <hr style="height: auto">
+              <div class="card-body all-icons">
+                  <!--List of results-->
+
+                  <!--Course-->
+                {% if course_query_list %}
+                    <div class="typography-line">
+                        <h5>Results From Courses</h5>
+                    </div>
+                    <hr style="background-color: #00bbff">
+                  {% for result in course_query_list%}
+                  <div class="card ">
+                      <div class="card-header ">
+                        <h5 class="card-title">{{ result }}</h5>
+                        <p class="card-category">{{ result.summary }}</p>
+                      </div>
+                    </div>
+                  {% endfor %}
+              {% endif %}
+
+                <!--news-->
+                {% if news_query_list %}
+                    <div class="typography-line">
+                        <h5>Results From Notifications</h5>
+                    </div>
+                    <hr style="background-color: #00bbff">
+                  {% for result in news_query_list%}
+                  <div class="card ">
+                      <div class="card-header ">
+                        <h5 class="card-title">{{ result }}</h5>
+                        <p class="card-category"><a href="{{ result.get_absolute_url }}">{{ result.get_content }}</a></p>
+                      </div>
+                    </div>
+                  {% endfor %}
+              {% endif %}
+
+              <!--papers-->
+                {% if papers_query_list %}
+                    <div class="typography-line">
+                        <h5>Results From Papers</h5>
+                    </div>
+                    <hr style="background-color: #00bbff">
+                  {% for result in papers_query_list%}
+                  <div class="card ">
+                      <div class="card-header ">
+                        <h5 class="card-title">{{ result }}</h5>
+                        <p class="card-category"><a href="{{ result.file.url}}">{{ result.file.url }}</a></p>
+                      </div>
+                    </div>
+                  {% endfor %}
+              {% endif %}
+
+              <!--uploads-->
+                {% if upload_query_list %}
+                    <div class="typography-line">
+                        <h5>Results From Uploads</h5>
+                    </div>
+                    <hr style="background-color: #00bbff">
+                  {% for result in upload_query_list%}
+                  <div class="card ">
+                      <div class="card-header ">
+                        <h5 class="card-title">{{ result }}</h5>
+                        <p class="card-category"><a href="{{ result.file.url}}">{{ result.file.url }}</a></p>
+                      </div>
+                    </div>
+                  {% endfor %}
+              {% endif %}
+
+              </div>
+            </div>
+          </div>
+        </div>
+    <!--No Results returned-->
+                  {% if not course_query_list and not news_query_list and not papers_query_list and not upload_query_list %}
+                  <div class="card ">
+                      <div class="card-header ">
+                        <h5 class="card-title">No Results</h5>
+                        <p class="card-category">Your Search Did Not Match Anything We Have Right Now</p>
+                      </div>
+                    </div>
+              {% endif %}
+{% endblock content %}

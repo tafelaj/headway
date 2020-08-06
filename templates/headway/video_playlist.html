@@ -1,0 +1,43 @@
+{% extends 'headway/base.html' %}
+{% block title %}Video Playlist{% endblock %}
+
+{% block content %}
+    <!-- Heading -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">{{ video.name }} Videos</h5>
+                <p class="card-category">List Of All Videos In Playlist.</p>
+              </div>
+                {% include 'partials/messages.html' %}
+              <div class="card-body ">
+                      <a href="{% url 'headway:course_detail' pk=video.course.pk%}" class="btn btn-success">
+                      <i class="nc-icon nc-minimal-left"></i>
+                           Back To Course Details
+                      </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    <!-- List Of Videos -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card ">
+              <div class="card-body">
+                  <div class="row">
+                      <div class="col-sm-12">
+              		<iframe width="560" height="315"
+                            src="https://www.youtube.com/embed/videoseries?list={{ video.link }}" frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+
+                    </iframe>
+                          </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+{% endblock content %}

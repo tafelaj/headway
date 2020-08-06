@@ -1,0 +1,10 @@
+{% extends 'administrator/base.html' %}
+{% block title %}Institution Details{% endblock %}
+
+{% block content %}
+    <div class="typography-line">
+    VABUPUBA SINIMADIA
+    </div>
+    {% include 'partials/messages.html' %}
+    <a href="{% url 'administrator:add_grading_list' %}">Add/Update Grading Criteria</a>
+{% endblock content %}

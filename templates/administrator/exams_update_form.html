@@ -1,0 +1,21 @@
+{% extends 'administrator/base.html' %}
+{% block title %}Exam Update{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">Update Exam</h5>
+                <p class="card-category">Fill In The Following Form To Edit This Exam</p>
+              </div>
+                <div class="card-body">
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <input type="submit" class="btn btn-outline-success" value="Update">
+                    </form>
+                </div>
+            </div>
+          </div>
+{% endblock content %}

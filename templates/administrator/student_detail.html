@@ -1,0 +1,33 @@
+{% extends 'administrator/base.html' %}
+{% block title %}{{ student }} Details {% endblock %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="card ">
+          <div class="card-header ">
+            <h5 class="card-title">{{ student }}</h5>
+            <p class="card-category">List Of Student Details</p>
+          </div>
+          <div class="card-body">
+                <div class="table-responsive">
+				<table class="table table-striped">
+					<tbody>
+                        <tr>
+                            <td>Email:</td>
+                            <td>{{ student.user.email }}</td>
+						</tr>
+                        <tr>
+                            <td>Phone:</td>
+                            <td>{{ student.phone }}</td>
+                        </tr>
+                        <tr>
+                            <td>Computer Number:</td>
+                            <td>{{ student.user.username }}</td>
+                        </tr>
+					</tbody>
+				</table>
+			</div>
+          </div>
+        </div>
+        </div>
+{% endblock content %}

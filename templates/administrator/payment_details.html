@@ -1,0 +1,59 @@
+{% extends 'administrator/base.html' %}
+{% block title %}Record Payment{% endblock %}
+
+{% block content %}
+    <div class="row">
+          <div class="col-lg-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">Payment Details</h5>
+                <p class="card-category">Details Of This Payment.</p>
+              </div>
+
+                <div class="card-body">
+                    {% include 'partials/messages.html' %}
+                        <div class="table-responsive">
+                          <table class="table">
+                            <thead class=" text-primary">
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>
+                                  Student: {{ payment.student }}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  Paid To: {{ payment.paid_to }}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  Amount: {{ payment.amount}}
+                                </td>
+                              </tr>
+                              <tr>
+                                  <td>
+                                  Description: {{ payment.description}}
+                                </td>
+                              </tr>
+                              <tr>
+                                  <td>
+                                  Receipt No.: {{ payment.receipt_no}}
+                                </td>
+                              </tr>
+                              <tr>
+                                  <td>
+                                  Date: {{ payment.date}}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
+                </div>
+            </div>
+          </div>
+        </div>
+
+{% endblock content %}

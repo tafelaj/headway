@@ -1,0 +1,53 @@
+{% extends 'headway/base.html' %}
+
+{% block title %}Completed Courses{% endblock %}
+
+{% block content %}
+    <div class="row">
+            {% if grades %}
+                  <div class="col-md-12">
+                    <div class="card">
+                      <div class="card-header">
+                        <h4 class="card-title"> List Of Cleared Courses</h4>
+                      </div>
+                      <div class="card-body">
+                        <div class="table-responsive">
+                          <table class="table">
+                            <thead class=" text-primary">
+                              <th> Course Code </th>
+                              <th> Course Name </th>
+                              <th> Grade </th>
+                            </thead>
+                            <tbody>
+                            {% for grade in grades %}
+                              <tr>
+                                <td>
+                                  {{ grade.course.code }}
+                                </td>
+                                <td>
+                                  {{ grade.course.name }}
+                                </td>
+                                <td>
+                                  {{ grade.grade }}
+                                </td>
+                              </tr>
+                            {% endfor %}
+
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            {% else %}
+                 <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">No Cleared Courses</h5>
+                <p class="card-category">You Have Not Cleared Any Course Yet.</p>
+              </div>
+            </div>
+          </div>
+            {% endif %}
+        </div>
+{% endblock content %}

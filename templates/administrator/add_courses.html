@@ -1,0 +1,39 @@
+{% extends 'administrator/base.html' %}
+{% block title %}Add Courses To {{ program }}{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <!-- Allowing lectures to add notifications -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">Add Courses To {{ program|capfirst }}</h5>
+                <p class="card-category">Fill Out The Forms Below To Add Courses To {{ program|capfirst }}.</p>
+              </div>
+              <div class="card-body ">
+                    {% if request.user.is_admin %}
+
+                        <form method="post" action="">
+                            {% csrf_token %}
+                            {{ formset.management_form }}
+                            {% if formset|length > 0 %}
+                                {% for form in formset %}
+                                    <h6>Course {{ forloop.counter }}</h6>
+                                    {{ form.id }}
+                                    {{ form|crispy }}
+                                    <hr class="btn-primary">
+                                    <br>
+                                {% endfor %}
+                            {% endif %}
+
+
+                            <input type="submit" value="Save All" class="btn btn-outline-success">
+
+                        </form>
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+{% endblock content %}

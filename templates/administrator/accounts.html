@@ -1,0 +1,23 @@
+{% extends 'administrator/base.html' %}
+{% block title %}Accounts Page{% endblock %}
+
+{% block content %}
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">{{ request.user.institution|capfirst }} Accounts</h5>
+                <p class="card-category">This Is The Institution's Accounts Page.</p>
+              </div>
+              <div class="card-body ">
+                    {% if request.user.is_admin %}
+                        <a href="{% url 'administrator:invoice_students_filter' %}" class="btn btn-primary">Create Invoices</a>
+                        <a href="{% url 'administrator:invoice_list' %}" class="btn btn-warning">Invoice List</a>
+                        <a href="{% url 'administrator:add_payment' %}" class="btn btn-primary">Record Payments</a>
+                        <a href="{% url 'administrator:payment_list' %}" class="btn btn-warning">Payment List</a>
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+{% endblock content %}

@@ -1,0 +1,76 @@
+{% extends 'administrator/base.html' %}
+{% block title %}Lecturer Details{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="card ">
+          <div class="card-header ">
+            <h5 class="card-title text-danger">Lecturer Details</h5>
+            <p class="card-category"><small class="text-info">If You Make Any Changes, Be Sure To Press The Update Button</small></p>
+          </div>
+            <div class="card-body">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-4">
+                            {{ user_form.first_name|as_crispy_field }}
+                        </div>
+
+                        <div class="col-md-4">
+                            {{ user_form.middle_name|as_crispy_field }}
+                        </div>
+
+                        <div class="col-md-4">
+                            {{ user_form.last_name|as_crispy_field }}
+                        </div>
+
+                        <div class="col-md-6">
+                            {{ user_form.email|as_crispy_field }}
+                        </div>
+
+                        <div class="col-md-6">
+                            {{ lecturer_form.phone|as_crispy_field }}
+                        </div>
+                    </div>
+                    <hr style="height: auto; background-color: #00bbff">
+                    <div class="row">
+                        <div class="col-md-4">
+                            {{ lecturer_form.province|as_crispy_field }}
+                        </div>
+
+                    <div class="col-md-4">
+                            {{ lecturer_form.district|as_crispy_field }}
+                        </div>
+
+                    <div class="col-md-4">
+                            {{ lecturer_form.town|as_crispy_field }}
+                        </div>
+
+                    <div class="col-md-4">
+                            {{ lecturer_form.home_address|as_crispy_field }}
+                        </div>
+
+                    <div class="col-md-4">
+                            {{ lecturer_form.birthday|as_crispy_field }}
+                        </div>
+
+                    <div class="col-md-4">
+                            {{ lecturer_form.marital_status|as_crispy_field }}
+                        </div>
+
+                    <div class="col-md-6">
+                            {{ lecturer_form.qualification|as_crispy_field }}
+                        </div>
+
+                    <div class="col-md-6">
+                            {{ lecturer_form.courses|as_crispy_field }}
+                        </div>
+                    </div>
+                    <input value="Update" type="submit" class="btn btn-outline-success">
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

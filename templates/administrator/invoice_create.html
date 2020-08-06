@@ -1,0 +1,63 @@
+{% extends 'administrator/base.html' %}
+{% block title %}Create Invoice{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">Create Invoice</h5>
+                  {% if programs %}
+                <p class="card-category">Fill In The Form Below To Create An Invoice.</p>
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+    {% if program %}
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card ">
+                  <div class="card-header ">
+                    <h5 class="card-title">{{ program }}</h5>
+                    <p class="card-category">Fill In The Form Below To Create An Invoice For <strong>{{ program }}
+                        ; Year: {{ year }} Semester: {{ semester }}</strong></p>
+                  </div>
+                  <div class="card-body ">
+
+                      <form method="post" action="">
+                          {% csrf_token %}
+                            <h3>Invoice</h3>
+                          {{ invoice_form }}
+                          {{ charges_formset.management_form}}
+
+                          <h6>Enter Charges Below</h6>
+                              {% for form in charges_formset %}
+
+
+                                  {{ form.non_field_errors }}
+                                  {{ form.errors }}
+                                  <div class="row">
+                                  <div class="col-lg-1 col-md-1">
+                                        {{ forloop.counter }}
+                                    </div>
+
+                                    <div class="col-lg-8 col-md-8">
+                                        {{ form.description|as_crispy_field }}
+                                    </div>
+                                  <div class="col-lg-3 col-md-3">
+                                        {{ form.amount|as_crispy_field }}
+                                    </div>
+                                  </div>
+                                {% endfor %}
+                      <input type="submit" class="btn btn-success" value="Create Invoice">
+                      </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+    {% endif %}
+{% endblock content %}

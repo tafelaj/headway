@@ -1,0 +1,133 @@
+{% extends 'administrator/base.html' %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">Dashboard</h5>
+                <p class="card-category">Quick Access To Programs And Courses For Easy Management.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% include 'partials/messages.html' %}
+    <div class="row">
+          <div class="col-lg-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">Programs</h5>
+                <p class="card-category">List Of All Programs. Edit The Ones That Apply To You.</p>
+                  <a class="btn btn-success" href="{% url 'administrator:create_program' %}">Add Program</a>
+              </div>
+
+              <div class="card-body ">
+                  {% if programs %}
+                      {% for program in programs %}
+                          <div class="row">
+                              <div class="col-lg-8 typography-line">
+                                <h5 class="col-lg-8">{{ forloop.counter }}. {{ program }}</h5>
+
+                              <div class="col-lg-4">
+                              <a class="btn btn-outline-danger btn-sm" data-toggle="collapse" href="#programEdit{{ program.pk }}" aria-expanded="false" aria-controls="programEdit">
+                                Edit
+                                  <i class="nc-icon nc-minimal-down"></i>
+                              </a>
+                                  </div>
+                              </div>
+                            <div class="collapse" id="programEdit{{ program.pk }}">
+                                <a class="btn btn-outline-danger btn-sm" href="{% url 'administrator:update_program' pk=program.pk %}">
+                                    Edit/Update
+                                </a>
+
+                                <a class="btn btn-outline-danger btn-sm" href="{% url 'administrator:delete_program' pk=program.pk %}">
+                                    Delete Program
+                                </a>
+
+                            </div>
+                          </div>
+                          <a class="btn btn-outline-success" data-toggle="collapse" href="#programCourse{{ program.pk }}" role="button" aria-expanded="false" aria-controls="programCourse">
+                            Show Courses
+                              <i class="nc-icon nc-minimal-down"></i>
+                          </a>
+
+                          <div class="collapse" id="programCourse{{ program.pk }}">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Course</th>
+                                                <th>
+                                                    <a href="{% url 'administrator:add_course' program_pk=program.pk %}"
+                                                    class="btn btn-success btn-sm">
+                                                        Add Course
+                                                    </a>
+                                                </th>
+                                                <th>
+                                                    <a href="{% url 'administrator:add_courses' program_pk=program.pk %}"
+                                                    class="btn btn-success btn-sm">
+                                                        Add Multiple Courses
+                                                    </a>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for course in program.course_set.all %}
+                                            <tr>
+                                                <td>{{ course|capfirst }} ({{ course.code }})</td>
+                                                <td><a href="{% url 'administrator:course_update' pk=course.pk %}"
+                                                       class="btn btn-info btn-sm">Edit</a> </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                          </div>
+                          <hr class="btn-success">
+                          <br>
+                      {% endfor %}
+                  {% else %}
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <div class="card ">
+                              <div class="card-header ">
+                                <h5 class="card-title">No Programs</h5>
+                                <p class="card-category">No Programs Nor Courses Have Been Added Yet.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                  {% endif %}
+
+              </div>
+            <!--Pagination-->
+            <div class="pagination">
+            <span class="page-link">
+                {% if programs.has_previous %}
+                    <a href="{{ request.path }}?page={{ programs.previous_page_number }}" class=" btn btn-outline-info btn-sm">
+                        Previous
+                    <i class="nc-icon nc-minimal-left"></i>
+                    </a>
+
+                {% endif %}
+            <span class="page-current">
+                Page {{ programs.number }} of {{ programs.paginator.num_pages }}
+            </span>
+                {% if programs.has_next %}
+                    <a href="{{ request.path }}?page={{ programs.next_page_number }}" class=" btn btn-outline-success btn-sm">
+                        Next
+                    <i class="nc-icon nc-minimal-right"></i>
+                    </a>
+
+                {% endif %}
+            </span>
+        </div>
+              <div class="card-footer ">
+
+              </div>
+            </div>
+          </div>
+        </div>
+{% endblock content %}

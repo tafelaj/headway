@@ -1,0 +1,109 @@
+{% extends 'headway/base.html' %}
+{% block title %}Papers{% endblock %}
+
+{% block content %}
+
+    <div class="content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card demo-icons">
+              <div class="card-header">
+                <h5 class="card-title">Papers</h5>
+                  <hr style="height: auto">
+                <p class="card-category">
+                   This Is A Place You Can Find Academic Papers By Students and Other Academicians. <br>
+                </p>
+              </div>
+              <div class="card-body all-icons">
+                  <hr style="height: auto">
+                      <!-- Buttons and such -->
+                  <a href="{% url 'headway:paper_upload' %}" class="btn btn-primary">
+                      <i class="nc-icon nc-cloud-upload-94"></i>
+                      Upload Paper</a>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+    {% if papers %}
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card demo-icons">
+              <div class="card-header">
+                <h5 class="card-title">Paper List</h5>
+                  <hr style="height: auto">
+                <p class="card-category">
+                   List Of All Academic Papers <br>
+                </p>
+              </div>
+              <div class="card-body all-icons">
+                 <div class="table-responsive">
+                   <table class="table">
+                     <thead class=" text-primary">
+                       <th>
+                         Paper Name
+                       </th>
+                       <th>
+                         Date/Time
+                       </th>
+                       <th class="text-right">
+                       </th>
+                     </thead>
+                     <tbody>
+                     {% for paper in papers_list %}
+                          <tr>
+                         <td>
+                           {{ paper.name }}
+                         </td>
+                         <td>
+                           {{ paper.date }}
+                         </td>
+                         <td class="text-right">
+                             {% if request.user == paper.user %}
+                             <a href="{% url 'headway:paper_delete' pk=paper.pk %}" class="btn btn-danger btn-sm">
+                               <i class="nc-icon nc-simple-remove"></i>
+                               Delete
+                           </a>
+                             {% endif %}
+
+                           <a href="{{ paper.file.url }}" class="btn btn-success btn-sm" target="_blank">
+                               <i class="nc-icon nc-cloud-download-93"></i>
+                               Download
+                           </a>
+                         </td>
+                       </tr>
+                      {% endfor %}
+                     </tbody>
+                   </table>
+                 </div>
+    {% else %}
+    <div class="row">
+    <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">No Papers</h5>
+                <p class="card-category">There Are No Papers For You Yet</p>
+              </div>
+            </div>
+          </div>
+    </div>
+    {% endif %}
+    {% if is_paginated %}
+        <div class="pagination">
+        <span class="page-link">
+            {% if page_obj.has_previous %}
+                <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}" class=" btn btn-outline-info btn-sm">Previous</a>
+            {% endif %}
+        <span class="page-current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+            {% if page_obj.has_next %}
+                <a href="{{ request.path }}?page={{ page_obj.next_page_number }}" class=" btn btn-outline-success btn-sm">Next</a>
+            {% endif %}
+        </span>
+        </div>
+    {% endif %}
+    </div>
+
+{% endblock content%}

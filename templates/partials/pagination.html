@@ -1,0 +1,23 @@
+{% if is_paginated %}
+        <div class="pagination">
+        <span class="page-link">
+            {% if page_obj.has_previous %}
+                <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}" class=" btn btn-outline-info btn-sm">
+                    Previous
+                <i class="nc-icon nc-minimal-left"></i>
+                </a>
+
+            {% endif %}
+        <span class="page-current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+            {% if page_obj.has_next %}
+                <a href="{{ request.path }}?page={{ page_obj.next_page_number }}" class=" btn btn-outline-success btn-sm">
+                    Next
+                <i class="nc-icon nc-minimal-right"></i>
+                </a>
+
+            {% endif %}
+        </span>
+        </div>
+    {% endif %}

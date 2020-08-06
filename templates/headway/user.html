@@ -1,0 +1,176 @@
+{% extends 'headway/base.html' %}
+{% block title %}User Profile{% endblock %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    {% include 'partials/messages.html' %}
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card card-user">
+              <div class="image">
+                  <!-- Set institution picture-->
+                <img src="{% static 'assets/img/damir-bosnjak.jpg' %}" alt="No Image">
+              </div>
+              <div class="card-body">
+                <div class="author">
+                  <a href="#">
+                    <img class="avatar border-gray" src="{% static 'assets/img/mike.jpg'%}" alt="...">
+                    <h5 class="title">{{ request.user.get_full_name }}</h5>
+                  </a>
+                  <p class="description">
+                    @{{ request.user.username }}
+                  </p>
+                </div>
+                <p class="description text-center">
+                  {% if request.user.is_student %}
+                      Program: {{ request.user.student.program }} <br>
+                      Level: {{ request.user.student.program.level }}<br>
+                      Semester/Term: {{ request.user.student.semester }}<br>
+                      Year: {{ request.user.student.year }}
+                  {% else %}
+                      Qualification: {{ request.user.lecturer.qualification }}<br>
+                    {% endif %}
+                </p>
+              </div>
+              <div class="card-footer">
+                <hr>
+                <div class="button-container">
+                    <a href="" class="btn btn-success">
+                        <i class="nc-icon nc-cloud-upload-94"></i>
+                            Upload Picture
+                        </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+            <!-- Edit Profile -->
+          <div class="col-md-8">
+            <div class="card card-user">
+              <div class="card-header">
+                <h5 class="card-title">Edit Profile</h5>
+              </div>
+              <div class="card-body">
+                <form method="post" action="{% url 'headway:user' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                  <div class="row">
+                    <div class="col-md-5 pr-1">
+                      <div class="form-group">
+                        <label>Institution</label>
+                        <input type="text" class="form-control" disabled="" placeholder="Institution"
+                               value="{{ request.user.institution }}">
+                      </div>
+                    </div>
+                    <div class="col-md-3 px-1">
+                      <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" class="form-control" placeholder="Username" value="{{ request.user.username }}" disabled="">
+                      </div>
+                    </div>
+                    <div class="col-md-4 pl-1">
+                      <div class="form-group">
+                        {{ user_form.email|as_crispy_field }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4 pr-1">
+                      <div class="form-group">
+                        {{ user_form.first_name|as_crispy_field }}
+                      </div>
+                    </div>
+                    <div class="col-md-4 pr-1">
+                      <div class="form-group">
+                        {{ user_form.middle_name|as_crispy_field }}
+                      </div>
+                    </div>
+                    <div class="col-md-4 pl-1">
+                      <div class="form-group">
+                        {{ user_form.last_name|as_crispy_field }}
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <!--profile Form-->
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                          {{ profile_form.nrc_number|as_crispy_field }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4 pr-1">
+                      <div class="form-group">
+                      {{ profile_form.province|as_crispy_field }}
+                      </div>
+                    </div>
+                    <div class="col-md-4 px-1">
+                      <div class="form-group">
+                      {{ profile_form.district|as_crispy_field }}
+                      </div>
+                    </div>
+                    <div class="col-md-4 pl-1">
+                      <div class="form-group">
+                      {{ profile_form.town|as_crispy_field }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                      {{ profile_form.home_address|as_crispy_field }}
+                      </div>
+                    </div>
+                    <div class="col-md-6 px-1">
+                      <div class="form-group">
+                      {{ profile_form.phone|as_crispy_field }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                      {{ profile_form.marital_status|as_crispy_field }}
+                      </div>
+                    </div>
+                    <div class="col-md-6 px-1">
+                      <div class="form-group">
+                      {{ profile_form.birthday|as_crispy_field }}
+                      </div>
+                    </div>
+                  </div>
+
+                    {% if request.user.is_lecturer %}
+                   <div class="row">
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                      {{ profile_form.qualification|as_crispy_field }}
+                      </div>
+                    </div>
+                    <div class="col-md-6 px-1">
+                      <div class="form-group">
+                      {{ profile_form.courses|as_crispy_field }}
+                      </div>
+                    </div>
+                  </div>
+                    {% endif %}
+
+                  <div class="row">
+                    <div class="update ml-auto mr-auto">
+                      <button type="submit" class="btn btn-primary btn-round">Update Profile</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+{% endblock %}

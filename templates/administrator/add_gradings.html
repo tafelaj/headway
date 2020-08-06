@@ -1,0 +1,53 @@
+{% extends 'administrator/base.html' %}
+{% block title %}Add Grading Values{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">Add Grading Values</h5>
+                <p class="card-category">Fill In The Form Below To Add Grading Values.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card ">
+                  <div class="card-body ">
+                      <form method="post" action="">
+                          {% csrf_token %}
+                            <h3>Add Grading Values</h3>
+                          {{ grade_list_formset.management_form}}
+                          <h6>Enter Grades And The Upper And Lower Limits Below</h6>
+                              {% for form in grade_list_formset %}
+                                  {{ form.id }}
+                                  {{ form.non_field_errors }}
+                                  {{ form.errors }}
+                                  <div class="row">
+                                  <div class="col-lg-1 col-md-1">
+                                        {{ forloop.counter }}
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-3">
+                                        {{ form.lower|as_crispy_field }}
+                                    </div>
+                                  <div class="col-lg-3 col-md-3">
+                                        {{ form.upper|as_crispy_field }}
+                                    </div>
+                                  <div class="col-lg-3 col-md-3">
+                                        {{ form.grade|as_crispy_field }}
+                                    </div>
+                                  </div>
+                                {% endfor %}
+                      <input type="submit" class="btn btn-success" value="Submit">
+                      </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+{% endblock content %}

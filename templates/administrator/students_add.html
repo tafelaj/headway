@@ -1,0 +1,55 @@
+{% extends 'administrator/base.html' %}
+{% block title %}Add Students{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="row">
+          <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">Add Students To {{ program|capfirst }} (YEAR:{{ year|upper }} SEMESTER:{{ semester|upper }})</h5>
+                <p class="card-category">Fill Out The Form Below To Add Students To {{ program|capfirst }}.</p>
+              </div>
+              <div class="card-body ">
+                    {% if request.user.is_admin %}
+
+                        <form method="post" action="">
+                            {% csrf_token %}
+                            {{ formset.management_form }}
+                            {% if formset|length > 0 %}
+                                {% for form in formset %}
+                                    {{ form.id }}
+                                    <div class="form-row">
+                                         <div class="form-group col-md-4 md-0 col-sm-12 col-lg-4">
+                                                {{ form.first_name|as_crispy_field }}
+                                            </div>
+
+                                        <div class="form-group col-md-4 col-lg-4 col-sm-12">
+                                            {{ form.middle_name|as_crispy_field }}
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-lg-4 col-sm-12">
+                                            {{ form.last_name|as_crispy_field }}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4 col-lg-4 col-sm-12">
+                                            {{ form.username|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                    <hr style="background-color: #00bbff">
+                                {% endfor %}
+
+                            <input type="hidden" value="{{ program.pk }}" name="program_pk">
+                            <input type="hidden" value="{{ year }}" name="student_year">
+                            <input type="hidden" value="{{ semester }}" name="student_semester">
+                            <input type="submit" value="Save All" class="btn btn-success">
+                        {% endif %}
+                        </form>
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+{% endblock content %}

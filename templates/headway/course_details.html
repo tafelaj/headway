@@ -1,0 +1,261 @@
+{% extends 'headway/base.html' %}
+{% block title %}{{course}} Details{% endblock %}
+
+
+{% block content %}
+    <div class="content">
+     <!-- Details For Course-->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card demo-icons">
+              <div class="card-header">
+                <h5 class="card-title">{{course|capfirst}} Details</h5>
+                  <hr style="height: auto">
+                <p class="card-category">
+                   {{ course.code }} <br>
+                </p>
+              </div>
+              <div class="card-body all-icons">
+
+                {% include 'partials/messages.html' %}
+
+                  <p class="text-body">{{ course.summery }}</p>
+                  {% if request.user.is_lecturer %}
+                      <!-- Buttons and such -->
+                  <a href="{% url 'headway:grade_course' pk=course.pk %}" class="btn btn-primary">Grade Course</a>
+                  {% endif %}
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+     <!-- Tests For Course-->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card demo-icons">
+              <div class="card-body all-icons">
+
+            <div class="card card-plain">
+              <div class="card-header">
+                <h4 class="card-title"> Test Results For {{course|capfirst}} </h4>
+                <p class="card-category"> List Of All Tests For This Course.</p>
+              </div>
+                
+                      <div class="card-body">
+                        {% if tests and requset.user.is_lecturer %}
+                            <div class="table-responsive">
+                              <table class="table">
+                                <thead class=" text-primary">
+                                  <th>
+                                    Test Name
+                                  </th>
+                                  <th>
+                                    Date/Time
+                                  </th>
+                                  <th class="text-right">
+                                  </th>
+                                </thead>
+                                <tbody>
+                                {% for test in tests %}
+                                     <tr>
+                                    <td>
+                                      {{ test.name }}
+                                    </td>
+                                    <td>
+                                      {{ test.date }}
+                                    </td>
+                                    <td class="text-right">
+                                      <a href="#" class="btn btn-success btn-sm" target="_blank">Grade Test</a>
+                                    </td>
+                                  </tr>
+                                 {% endfor %}
+                                </tbody>
+                              </table>
+                            </div>
+                        {% elif test_grades and request.user.is_student %}
+                            <div class="table-responsive">
+                              <table class="table">
+                                <thead class=" text-primary">
+                                  <th>
+                                    Test Name
+                                  </th>
+                                  <th>
+                                    Date/Time
+                                  </th>
+                                  <th class="text-right">
+                                      Mark
+                                  </th>
+                                </thead>
+                                <tbody>
+                                {% for grade in test_grades %}
+                                     <tr>
+                                    <td>
+                                      {{ grade.test.name }}
+                                    </td>
+                                    <td>
+                                      {{ grade.test.date }}
+                                    </td>
+                                    <td class="text-right">
+                                     <strong>{{ grade.mark }}%</strong>
+                                    </td>
+                                  </tr>
+                                 {% endfor %}
+                                </tbody>
+                              </table>
+                            </div>
+
+                        {% else %}
+                            <div class="text-center">
+                                <div class="typography-line">
+
+                                    <span class="text-danger">There Are No Test Results Here Yet...</span>
+                                </div> <br>
+                            </div>
+                    {% endif %}
+                    {% if request.user.is_lecturer %}
+                  <!-- Buttons and such -->
+                  <a href="#" class="btn btn-primary">Add Test</a>
+              {% endif %}
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    <!-- Files For Course-->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card demo-icons">
+              <div class="card-header">
+                <h5 class="card-title">Uploaded Files For {{course|capfirst}} </h5>
+                <p class="card-category">
+                   List Of All Files Uploaded For This Course. <br>
+                </p>
+              </div>
+              <div class="card-body all-icons">
+                  {% if files %}
+                      <table class="table">
+                            <thead class=" text-primary">
+                              <th>
+                                File Name
+                              </th>
+                              <th>
+                                Upload Date/Time
+                              </th>
+                              <th class="text-right">
+                              </th>
+                            </thead>
+                            <tbody>
+                            {% for file in files %}
+                                 <tr>
+                                <td>
+                                  {{ file.name }}
+                                </td>
+                                <td>
+                                  {{ file.file }}
+                                </td>
+
+                                <td class="text-right">
+                                  {% if request.user.is_lecturer %}
+                                <a href="{% url 'headway:delete_file' pk=file.pk course_id=course.id  %}" class="btn btn-danger btn-sm" >
+                                    <i class="nc-icon nc-simple-remove"></i>
+                                    Delete
+                                </a>
+                                    {% endif %}
+                                <a href="{{ file.file.url }}" class="btn btn-primary btn-sm" target="_blank">
+                                    <i class="nc-icon nc-cloud-download-93"></i>
+                                    Download
+                                </a>
+                                </td>
+                              </tr>
+                             {% endfor %}
+                            </tbody>
+                          </table>
+                  {% else %}
+                      <div class="text-center">
+                      <div class="typography-line"><span class="text-danger">There Are No Files Here Yet...</span></div> <br>
+                      </div>
+                  {% endif %}
+
+              {% if request.user.is_lecturer %}
+                  <!-- Buttons and such -->
+                  <a href="{% url 'headway:upload_file' course_id=course.id %}" class="btn btn-primary">
+                      <i class="nc-icon nc-cloud-upload-94"></i>
+                      Upload File
+                  </a>
+              {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+    <!-- Videos For Course-->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card demo-icons">
+              <div class="card-header">
+                <h5 class="card-title">Videos For {{course|capfirst}} </h5>
+                <p class="card-category">
+                   List Of All Video Series For This Course. <br>
+                </p>
+              </div>
+              <div class="card-body all-icons">
+                  {% if videos %}
+                      <table class="table">
+                            <thead class=" text-primary">
+                              <th>
+                                Series Name
+                              </th>
+                              <th>
+                                Upload Date
+                              </th>
+                              <th class="text-right">
+                              </th>
+                            </thead>
+                            <tbody>
+                            {% for video in videos %}
+                                 <tr>
+                                <td>
+                                  {{ video.name }}
+                                </td>
+                                <td>
+                                  {{ video.date }}
+                                </td>
+
+                                <td class="text-right">
+                                  {% if request.user.is_lecturer %}
+                                <a href="{% url 'headway:video_delete' pk=video.pk course_id=course.id  %}" class="btn btn-danger btn-sm" >
+                                    <i class="nc-icon nc-simple-remove"></i>
+                                    Delete
+                                </a>
+                                    {% endif %}
+                                <a href="{% url 'headway:video_play_list' playlist_pk=video.pk%}" class="btn btn-primary btn-sm" target="_blank">
+                                    <i class="nc-icon nc-button-play"></i>
+                                    Watch
+                                </a>
+                                </td>
+                              </tr>
+                             {% endfor %}
+                            </tbody>
+                          </table>
+                  {% else %}
+                      <div class="text-center">
+                      <div class="typography-line"><span class="text-danger">There Are No Videos Here Yet...</span></div> <br>
+                      </div>
+                  {% endif %}
+
+              {% if request.user.is_lecturer %}
+                  <!-- Buttons and such -->
+                  <a href="{% url 'headway:upload_video' course_id=course.pk %}" class="btn btn-primary">
+                      <i class="nc-icon nc-cloud-upload-94"></i>
+                      Upload Video Series
+                  </a>
+              {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+{% endblock content %}

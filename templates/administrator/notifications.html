@@ -1,0 +1,67 @@
+{% extends 'administrator/base.html' %}
+{% block title %}Notifications{% endblock %}
+
+{% block content %}
+
+        <!-- Allowing lectures to add notifications -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">Notifications</h5>
+                <p class="card-category">This Is Were to Find Information About Everything</p>
+              </div>
+              <div class="card-body ">
+                      <a href="{% url 'administrator:add_notification' %}" class="btn btn-success">
+                      <i class="nc-icon nc-simple-add"></i>
+                          Add Notification
+                      </a>
+              </div>
+            </div>
+          </div>
+        </div>
+    {% include 'partials/messages.html' %}
+
+
+    {% if news %}
+        {% for notification in news %}
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">{{ notification.title }}</h5>
+                <p class="card-category">{{ notification.create_date }}</p>
+              </div>
+              <div class="card-body ">
+                <p class="notification-text" style="font-size: medium"> {{ notification.content }}</p>
+              </div>
+              <div class="card-footer ">
+                <hr>
+                <div class="stats text-success">
+                  <i class="fa fa-history "></i> From: {{ notification.created_by.get_full_name }}
+                      <a href="{% url 'administrator:news_delete' pk=notification.pk %}" class="btn btn-danger btn-sm">
+                               <i class="nc-icon nc-simple-remove"></i>
+                               Delete
+                      </a>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">No Notifications</h5>
+                <p class="card-category">There Are No Notifications For You Yet</p>
+              </div>
+            </div>
+          </div>
+
+    {% endif %}
+
+    {% include 'partials/pagination.html' %}
+
+{% endblock content %}

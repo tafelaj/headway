@@ -1,0 +1,93 @@
+{% extends 'headway/base.html' %}
+{% block title %}Notifications{% endblock %}
+
+{% block content %}
+
+        <!-- Allowing lectures to add notifications -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">Notifications</h5>
+                <p class="card-category">This Is Were to Find Information About Everything</p>
+              </div>
+              <div class="card-body ">
+                  {% if request.user.is_lecturer %}
+                      <a href="{% url 'headway:add_notification' %}" class="btn btn-success">
+                      <i class="nc-icon nc-simple-add"></i>
+                          Add Notification
+                      </a>
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+    {% include 'partials/messages.html' %}
+
+    {% if news %}
+        {% for notification in news %}
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">{{ notification.title }}</h5>
+                <p class="card-category">{{ notification.create_date }}</p>
+              </div>
+              <div class="card-body ">
+                <p class="notification-text" style="font-size: medium"> {{ notification.content }}</p>
+              </div>
+              <div class="card-footer ">
+                <hr>
+                <div class="stats text-success">
+                  <i class="fa fa-history "></i> From: {{ notification.created_by.get_full_name }}
+                    {% if notification.created_by == request.user %}
+                      <a href="{% url 'headway:news_delete' pk=notification.pk %}" class="btn btn-danger btn-sm">
+                               <i class="nc-icon nc-simple-remove"></i>
+                               Delete
+                      </a>
+                  {% endif %}
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">No Notifications</h5>
+                <p class="card-category">There Are No Notifications For You Yet</p>
+              </div>
+            </div>
+          </div>
+
+    {% endif %}
+
+    {% if is_paginated %}
+        <div class="pagination">
+        <span class="page-link">
+            {% if page_obj.has_previous %}
+                <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}" class=" btn btn-outline-info btn-sm">
+                    Previous
+                <i class="nc-icon nc-minimal-left"></i>
+                </a>
+
+            {% endif %}
+        <span class="page-current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+            {% if page_obj.has_next %}
+                <a href="{{ request.path }}?page={{ page_obj.next_page_number }}" class=" btn btn-outline-success btn-sm">
+                    Next
+                <i class="nc-icon nc-minimal-right"></i>
+                </a>
+
+            {% endif %}
+        </span>
+        </div>
+    {% endif %}
+
+{% endblock content %}

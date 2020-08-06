@@ -1,0 +1,119 @@
+{% extends 'administrator/base.html' %}
+{% block title %}Students{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    {% if not program %}
+    <div class="col-md-12">
+        <div class="card ">
+          <div class="card-header ">
+            <h5 class="card-title ">Student Lists</h5>
+            <p class="card-category">Use The Filters Below To Get A Desired Student List.</p>
+          </div>
+        </div>
+    </div>
+    {% endif %}
+    {% if program_list %}
+    {% for program in program_list %}
+    <div class="col-md-12">
+        <div class="card ">
+          <div class="card-header ">
+            <h5 class="card-title">{{ forloop.counter }}. {{ program }}</h5>
+            <p class="card-category">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ filter_form|crispy }}
+                  <input type="hidden" value="{{ program.pk }}" name="program_pk">
+                  <input value="Get Student List" type="submit" class="btn-sm">
+                </form>
+            </p>
+          </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+        {% if not program %}
+        <div class="col-md-12">
+        <div class="card ">
+          <div class="card-header ">
+            <h5 class="card-title">No Programs Found</h5>
+            <p class="card-category">Add Programs Then Students To Get Access To The Student List</p>
+          </div>
+        </div>
+        </div>
+        {% endif %}
+    {% endif %}
+
+    {% if students %}
+         <div class="col-md-12">
+        <div class="card ">
+          <div class="card-header ">
+            <h5 class="card-title">{{ program }} Class List</h5>
+            <p class="card-category">
+                <strong>Year: {{ first_student.get_year_display }} Semester: {{ first_student.get_semester_display }}</strong></p>
+          </div>
+          <div class="card-body">
+            {% include 'partials/messages.html' %}
+          <h3 class="card-title">Population: {{ students.count }} Students</h3>
+
+                    <form action="{% url 'administrator:add_students' %}">
+                        <input type="hidden" value="{{ program.pk }}" name="program_pk">
+                        <input type="hidden" value="{{ first_student.year }}" name="student_year">
+                        <input type="hidden" value="{{ first_student.semester }}" name="student_semester">
+                        <input type="submit" value="Add Students" class="btn btn-primary btn-sm">
+                    </form>
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>No.</th>
+							<th>Name</th>
+							<th>Computer No.</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+                    {% for student in  students%}
+
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+							<td>{{ student.user.get_full_name }}</td>
+							<td>{{ student.user.username }}</td>
+							<td>
+                                <a class="btn btn-success btn-sm" href="{% url 'administrator:student_details' pk=student.pk %}">
+                                    View Details
+                                </a>
+                            </td>
+						</tr>
+
+                    {% endfor %}
+					</tbody>
+				</table>
+			</div>
+
+          </div>
+        </div>
+        </div>
+    {% else %}
+        {% if program %}
+            <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title text-danger">No Students</h5>
+                <p class="card-category">There Are No Students In The List You Specified.</p>
+              </div>
+                <div class="card-body">
+                    <form action="{% url 'administrator:add_students' %}">
+                        <input type="hidden" value="{{ program.pk }}" name="program_pk">
+                        <input type="hidden" value="{{ year }}" name="student_year">
+                        <input type="hidden" value="{{ semester }}" name="student_semester">
+                        <input type="submit" value="Add Students" class="btn btn-primary btn-sm">
+                    </form>
+                </div>
+            </div>
+            </div>
+        {% endif %}
+    {% endif %}
+
+
+{% endblock content %}

@@ -1,0 +1,138 @@
+{% extends 'headway/base.html' %}
+{% block title %}Result List{% endblock %}
+
+{% block content %}
+    {% if request.user.is_student %}
+        <div class="row">
+            {% if exams %}
+                {% for exam in exams %}
+                  <div class="col-md-12">
+                    <div class="card">
+                      <div class="card-header">
+                        <h4 class="card-title"> Results For {{ exam }}.</h4>
+                      </div>
+                      <div class="card-body">
+                        <div class="table-responsive">
+                          <table class="table">
+                            <thead class=" text-primary">
+                              <th> Course Code </th>
+                              <th> Course Name </th>
+                              <th> Grade </th>
+                              <th class="text-right"> Comment </th>
+                            </thead>
+                            <tbody>
+                            {% for grade in exam.grade_set.all %}
+                                {% if request.user.student == grade.student %}
+                              <tr>
+                                <td>
+                                  {{ grade.course.code }}
+                                </td>
+                                <td>
+                                  {{ grade.course }}
+                                </td>
+                                <td>
+                                  {{ grade.grade }}
+                                </td>
+                                <td class="text-right">
+                                  No Comment
+                                </td>
+                              </tr>
+                                {% endif %}
+                            {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+            {% else %}
+                 <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">No Results</h5>
+                <p class="card-category">We Currently Do Not Have Any Results To Show.</p>
+              </div>
+            </div>
+          </div>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    {% if request.user.is_lecturer %}
+        {% if exams %}
+         <div class="row">
+        {% for exam in exams %}
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                  <h4 class="card-title"> Results For {{ exam }} <strong>({% if exam.active %}
+                      UNPUBLISHED{% else %}PUBLISHED{% endif %})</strong></h4>
+              </div>
+              <div class="card-body">
+            {% for course in exam.courses.all %}
+                <div class="table-responsive">
+                {% if request.user.lecturer in course.course_lecturer.all  %}
+                    <h5>{{ course }}({{ course.program }}) </h5>
+                    {% if course.grade_set.all|length > 0 %}
+                  <table class="table">
+                    <thead class=" text-primary">
+                      <th> No. </th>
+                      <th> Student Name(Comp. No.) </th>
+                      <th>CA</th>
+                      <th> Mark </th>
+                      <th> Grade </th>
+                      <th class="text-right"> Comment </th>
+                    </thead>
+                    <tbody>
+                    {% for grade in course.grade_set.all %}
+                      <tr>
+                        <td>
+                          {{ forloop.counter }}
+                        </td>
+                        <td>
+                          {{ grade.student }}
+                        </td>
+                        <td>
+                            {{ grade.ca_value }}
+                        </td>
+                          <td>
+                          {{ grade.marks }}
+                        </td>
+                        <td>
+                          {{ grade.grade }}
+                        </td>
+                        <td class="text-right">
+                          No Comment
+                        </td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+                {% else %}
+                       <!-- <div class="btn btn-warning">No Results Recorded For This Course.</div>-->
+                {% endif %}
+                </div>
+                {% endif %}
+                <hr class="btn-success">
+                <br>
+                {% endfor %}
+
+              </div>
+            </div>
+          </div>
+            <hr class="btn-warning">
+        {% endfor %}
+        </div>
+    {% else %}
+            <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">No Results</h5>
+                <p class="card-category">We Currently Do Not Have Any Results To Show.</p>
+              </div>
+            </div>
+          </div>
+    {% endif %}
+    {% endif %}
+{% endblock content %}

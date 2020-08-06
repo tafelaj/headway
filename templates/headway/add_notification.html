@@ -1,0 +1,56 @@
+{% extends 'headway/base.html' %}
+{% block title %}Add Notification{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <!-- Allowing lectures to add notifications -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">Add Notifications</h5>
+                <p class="card-category">Fill Out The Form Below To Create A Notification</p>
+              </div>
+              <div class="card-body ">
+                    {% if request.user.is_lecturer %}
+                        <form action="" class="form-control" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <div id="div_id_title" class="form-group">
+                                <label for="id_title" class=" requiredField">
+                                    Title
+                                    <span class="asteriskField">*</span>
+                                </label>
+                                <div class="">
+                                    <input type="text" name="title" maxlength="200" class="textinput textInput form-control" required id="id_title">
+                                </div>
+                            </div>
+                            <div id="div_id_content" class="form-group">
+                                <label for="id_content" class=" requiredField">
+                                            Content
+                                    <span class="asteriskField">*</span>
+                                </label>
+                                <div class="">
+                                <textarea name="content" cols="40" rows="10" class="textarea form-control" required id="id_content">
+                                </textarea>
+                                <small id="hint_id_content" class="form-text text-muted">Enter Message Content here.</small>
+                            </div>
+                            </div>
+                            <div class="form-group">
+                                <div id="div_id_staff_only" class="">
+                                    <input type="checkbox" name="staff_only" class="" id="id_staff_only">
+                                    <label for="id_staff_only" class="form-check-label">
+                                                Staff only
+                                            </label>
+                                    <small id="hint_id_staff_only" class="form-text text-muted">Who should See This Message.</small>
+                                </div> </div>
+                            <input class="btn btn-outline-success" type="submit" value="Send">
+                        </form>
+
+
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+{% endblock content %}

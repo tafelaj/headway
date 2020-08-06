@@ -1,0 +1,25 @@
+{% extends 'administrator/base.html' %}
+{% block title %}Invoice Update{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="row">
+          <div class="col-lg-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">Invoice Update</h5>
+                <p class="card-category">Fill Form Bellow To Invoice Update The Invoice.</p>
+              </div>
+
+                <div class="card-body">
+                    {% include 'partials/messages.html' %}
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <input type="submit" value="Update" class="btn btn-outline-success">
+                    </form>
+                </div>
+            </div>
+          </div>
+        </div>
+{% endblock content %}

@@ -1,0 +1,71 @@
+{% extends 'administrator/base.html' %}
+{% block title %}Invoice List {% endblock %}
+
+{% block content %}
+    <div class="row">
+          <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">{{ request.user.institution|capfirst }} Invoice List</h5>
+                <p class="card-category">This Is The Institution's Invoice List Page.</p>
+              </div>
+              <div class="card-body ">
+                    {% if request.user.is_admin %}
+                        {% include 'partials/messages.html' %}
+                        {% if invoices %}
+                        <div class="table-responsive">
+                          <table class="table">
+                            <thead class=" text-primary">
+                              <th> No. </th>
+                              <th> Invoice</th>
+                              <th> Amount </th>
+                              <th class="text-right"></th>
+                            </thead>
+                            <tbody>
+                            {% for invoice in invoices %}
+
+                              <tr>
+                                <td>
+                                  {{ forloop.counter }}
+                                </td>
+                                <td>
+                                  {{ invoice }}
+                                </td>
+                                <td>
+                                  {{ invoice.total_amount}}
+                                </td>
+                                <td class="text-right">
+                                <a href="{% url 'administrator:invoice_delete' pk=invoice.pk %}" class="btn btn-danger btn-sm" >
+                                    <i class="nc-icon nc-simple-remove"></i>
+                                    Delete
+                                </a>
+                                <a href="{% url 'administrator:invoice_update' pk=invoice.pk %}" class="btn btn-primary btn-sm">
+                                    Update/Edit
+                                </a>
+                                </td>
+                              </tr>
+
+                            {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                            {% else %}
+                            <div class="row">
+                              <div class="col-md-12">
+                                <div class="card ">
+                                  <div class="card-header ">
+                                    <h5 class="card-title">No Invoices</h5>
+                                    <p class="card-category">You Have Not Created Any Invoices Yet.</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            {% endif %}
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+    {% include 'partials/pagination.html' %}
+{% endblock content %}

@@ -1,0 +1,28 @@
+{% extends 'headway/base.html' %}
+{% block title %}Add Paper{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card demo-icons">
+              <div class="card-header">
+                <h5 class="card-title">Paper Upload</h5>
+                  <hr style="height: auto">
+                <p class="card-category">
+                   Use The Form Below To Upload Your Academic Paper <br>
+                </p>
+              </div>
+              <div class="card-body all-icons">
+                  <hr style="height: auto">
+                  <form class="form-group" action="" method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      {{ form|crispy }}
+                      <input type="submit" value="Upload" class="btn btn-success btn-sm">
+                  </form>
+              </div>
+            </div>
+          </div>
+        </div>
+{% endblock content %}

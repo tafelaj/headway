@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en-us" >
+<head>
+<title>Log in | SentinelStar</title>
+<link rel="stylesheet" type="text/css" href="{% static 'django_admin/base.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'django_admin/login.css' %}">
+
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'django_admin/responsive.css' %}">
+
+
+<meta name="robots" content="NONE,NOARCHIVE">
+</head>
+
+
+<body class=" login"
+  data-admin-utc-offset="7200">
+
+<!-- Container -->
+<div id="container">
+
+
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+
+<h1 id="site-name"><a href="{% url 'landing' %}">Log in | SentinelStar</a></h1>
+
+        </div>
+
+
+    </div>
+    <!-- END Header -->
+
+    <!-- Content -->
+    <div id="content" class="colM">
+
+<div id="content-main">
+
+    {% if error %}
+    <p class="errornote">
+        {{ error }}
+    </p>
+    {% endif %}
+
+<form action="" method="post" id="login-form">
+    {% csrf_token %}
+  <div class="form-row">
+    <label class="required" for="id_username">Student ID or Email:</label> <input type="text" name="username" autofocus required id="id_username">
+  </div>
+
+  <div class="form-row">
+    <label class="required" for="id_password">Password:</label> <input type="password" name="password" required id="id_password">
+    <input type="hidden" name="next" value="/admin/">
+  </div>
+
+
+  <div class="submit-row">
+    <label>&nbsp;</label><input type="submit" value="Log in">
+  </div>
+</form>
+<br class="clear">
+    <small class="text-center text-info text-dark"><strong>NOTE: Only Lecturers Should Use Emails To Login.</strong></small>
+</div>
+
+
+        <br class="clear">
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+{% extends 'administrator/base.html' %}
+{% block title %}Invoice List {% endblock %}
+
+{% block content %}
+    <div class="row">
+          <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">{{ request.user.institution|capfirst }} Payment List</h5>
+                <p class="card-category">This Is The Institution's Payment List Page.</p>
+              </div>
+              <div class="card-body ">
+                    {% if request.user.is_admin %}
+                        <div class="table-responsive">
+                          <table class="table">
+                            <thead class=" text-primary">
+                              <th> No. </th>
+                              <th> Payment</th>
+                              <th> Amount </th>
+                              <th class="text-right"></th>
+                            </thead>
+                            <tbody>
+                            {% for payment in payments %}
+
+                              <tr>
+                                <td>
+                                  {{ forloop.counter }}
+                                </td>
+                                <td>
+                                  {{ payment }}
+                                </td>
+                                <td>
+                                  K {{ payment.amount}}
+                                </td>
+                                <td class="text-right">
+                                <a href="{% url 'administrator:payment_details' pk=payment.pk %}" class="btn btn-primary btn-sm">
+                                    Details
+                                </a>
+                                </td>
+                              </tr>
+                            {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                            {% else %}
+                            <div class="row">
+                              <div class="col-md-12">
+                                <div class="card ">
+                                  <div class="card-header ">
+                                    <h5 class="card-title">No Payments</h5>
+                                    <p class="card-category">You Have Not Recorded Any Payments Yet.</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+    {% include 'partials/pagination.html' %}
+{% endblock content %}

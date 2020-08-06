@@ -1,0 +1,52 @@
+{% extends 'headway/base.html' %}
+{% block title %}Grade Course{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <!-- Allowing lectures to Grade Students -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">Grade {{ course|capfirst }} ({{ course.code|upper }})</h5>
+                <p class="card-category">Fill Out The Form Below To Grade Students In {{ course|capfirst }}.</p>
+              </div>
+              <div class="card-body ">
+                    {% if request.user.is_lecturer %}
+
+                        <form method="post" action="">
+
+                            {% csrf_token %}
+                            {{ formset.management_form }}
+                            {% if formset|length > 0 %}
+                                {% for form in formset %}
+                                    {{ form.id }}
+                                    <div class="form-row">
+                                     <div class="form-group col-md-8 md-0 col-sm-12 col-lg-8">
+                                            {{ form.student|as_crispy_field }}
+                                        </div>
+
+                                    <div class="form-group col-md-4 col-lg-4 col-sm-12">
+                                        {{ form.marks|as_crispy_field }}
+                                    </div>
+                                    </div>
+                                    <hr style="background-color: #00bbff">
+                                {% endfor %}
+                            <input type="submit" value="Save All" class="btn btn-success">
+                        {% else %}
+                                <div class="col-md-12">
+                                    <div class="card ">
+                                      <div class="card-header ">
+                                        <h5 class="card-title text-danger">No Students</h5>
+                                        <p class="card-category">It Seems No Student Has Registered To Be Examined In This Course Yet</p>
+                                      </div>
+                                    </div>
+                                </div>
+                        {% endif %}
+                        </form>
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+{% endblock content %}

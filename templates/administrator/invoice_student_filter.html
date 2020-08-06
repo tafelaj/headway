@@ -1,0 +1,48 @@
+{% extends 'administrator/base.html' %}
+{% block title %}Invoice Students Filter{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="card ">
+          <div class="card-header ">
+            <h5 class="card-title ">Student List Filter</h5>
+            <p class="card-category">Use The Filters Below To Get A Desired Student List Of The Students You Want To Create An Invoice For.</p>
+          </div>
+        </div>
+    </div>
+
+    {% include 'partials/messages.html' %}
+
+    {% if program_list %}
+    {% for program in program_list %}
+    <div class="col-md-12">
+        <div class="card ">
+          <div class="card-header ">
+            <h5 class="card-title">{{ forloop.counter }}. {{ program }}</h5>
+            <p class="card-category">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ filter_form|crispy }}
+                  <input type="hidden" value="{{ program.pk }}" name="program_pk">
+                  <input value="Create Student Invoices" type="submit" class="btn-sm btn-outline-info">
+                </form>
+            </p>
+          </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+        <div class="col-md-12">
+        <div class="card ">
+               <div class="card-header text-center">
+                 <h5 class="card-title">No Programs</h5>
+                 <p class="card-category">No Programs From Your Institution Have Been Added Yet.</p>
+                 <p class="card-category"><strong>Add Programs Before You Can Create Student Invoices.</strong></p>
+             <a href="{% url 'administrator:accounts' %}" class="btn btn-primary btn-sm">Ok</a>
+             </div>
+        </div>
+        </div>
+    {% endif %}
+
+{% endblock content %}
