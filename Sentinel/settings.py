@@ -28,7 +28,7 @@ SECRET_KEY = '&u$v9301f1s&=c^eg=-(+fujj(bi4e^d$rob6png_(17ow!mh5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['tafelajpjr.pythonanywhere.com',]
 
 
 # Application definition
@@ -84,9 +84,16 @@ WSGI_APPLICATION = 'Sentinel.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'TafelaJPjr$headway_database',
+        'USER': 'TafelaJPjr',
+        'PASSWORD': 'theburningissolow123john4',
+        'HOST': 'TafelaJPjr.mysql.pythonanywhere-services.com',
+        'OPTIONS': {
+        'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+    },
+    },
+
 }
 
 
@@ -127,6 +134,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/home/TafelaJPjr/headway/static/'
 
 MEDIA_URL = '/media/'
 

@@ -462,18 +462,24 @@ class Login(FormView):
         user = authenticate(request, username=username, password=password)
         if user:
             if user.is_active:
-                if user.institution.active_subscription:
-                    login(request, user)
-                    if user.is_student:
-                        return HttpResponseRedirect(reverse_lazy('headway:student_home'))
-                    if user.is_lecturer:
-                        return HttpResponseRedirect(reverse_lazy('headway:lecturer_home'))
-                    if user.is_admin:
-                        return HttpResponseRedirect(reverse_lazy('administrator:dash'))
+                if user.institution:
+                    if user.institution.active_subscription:
+                        login(request, user)
+                        if user.is_student:
+                            return HttpResponseRedirect(reverse_lazy('headway:student_home'))
+                        elif user.is_lecturer:
+                            return HttpResponseRedirect(reverse_lazy('headway:lecturer_home'))
+                        elif user.is_admin:
+                            return HttpResponseRedirect(reverse_lazy('administrator:dash'))
+                        else:
+                            return HttpResponseRedirect(reverse_lazy('admin:index'))
 
+                    else:
+                        return render(request, self.template_name, {'error': 'Your Institution Has Been Deactivated. '
+                                                                             'Go To The Support Page For Assistance.'})
                 else:
-                    return render(request, self.template_name, {'error': 'Your Institution Has Been Deactivated. '
-                                                                         'Go To The Support Page For Assistance.'})
+                    login(request, user)
+                    return HttpResponseRedirect(reverse_lazy('admin:index'))
             else:
                 return render(request, self.template_name, {'error': 'Your Account Has Been Deactivated. '
                                                                      'Go To The Support Page For Assistance.'})
@@ -491,10 +497,12 @@ class Login(FormView):
         if request.user.is_authenticated:
             if request.user.is_lecturer:
                 return HttpResponseRedirect(reverse_lazy('headway:lecturer_home'))
-            if request.user.is_student:
+            elif request.user.is_student:
                 return HttpResponseRedirect(reverse_lazy('headway:student_home'))
-            if request.user.is_admin:
+            elif request.user.is_admin:
                 return HttpResponseRedirect(reverse_lazy('administrator:dash'))
+            else:
+                return HttpResponseRedirect(reverse_lazy('admin:index'))
 
 
 # ################################# Video Views ############################################
